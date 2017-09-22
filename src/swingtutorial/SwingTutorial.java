@@ -5,11 +5,16 @@
  */
 package swingtutorial;
 
+import com.sun.java_cup.internal.runtime.Scanner;
+import com.sun.java_cup.internal.runtime.Symbol;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -96,7 +101,7 @@ public class SwingTutorial {
         formLogin.setLayout(null);
 
         JPanel jPanel = new JPanel();
-        jPanel.setBackground(Color.CYAN);
+        jPanel.setBackground(Color.GREEN);
         jPanel.setBounds(0, 0, 800, 800);
 
         JLabel lblId = new JLabel("ID Student");
@@ -152,6 +157,15 @@ public class SwingTutorial {
         jPanel.setLayout(null);
         formLogin.setVisible(true);
         formLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        class LoginHandle implements ActionListener {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "Bạn có chắc chắn nhập vào thông tin : " + "\n" + txtId.getText() + "\n" + txtName.getText() + "\n" + txtEmail.getText() + "\n" +txtPhone.getText() + "\n" + txtRollNumber.getText() + "\n" +txtClassName.getText() );
+            }
+
+        }
 
     }
 
