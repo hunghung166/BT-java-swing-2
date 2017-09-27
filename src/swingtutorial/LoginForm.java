@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JButton;
@@ -44,6 +45,14 @@ public class LoginForm extends JFrame {
     private JTextField txtClassname;
     private final JFormattedTextField txfPhone;
     private final JFormattedTextField txfBirthday;
+    private final JLabel lblIdMessage;
+    private final JLabel lblNameMessage;
+    private final JLabel lblEmailtMessage;
+    private final JLabel lblPhonetMessage;
+    private final JLabel lblBirthdaytMessage;
+    private final JLabel lblRollnumbertMessage;
+    private final JLabel lblClassnametMessage;
+    private final JLabel lblTotalMessage;
 
     public LoginForm() {
         this.setSize(700, 500);
@@ -57,6 +66,15 @@ public class LoginForm extends JFrame {
         this.lblBirthday = new JLabel("Birthday");
         this.lblRollnumber = new JLabel("Rollnumber");
         this.lblClassname = new JLabel("Classname");
+
+        this.lblTotalMessage = new JLabel();
+        this.lblIdMessage = new JLabel();
+        this.lblNameMessage = new JLabel();
+        this.lblEmailtMessage = new JLabel();
+        this.lblPhonetMessage = new JLabel();
+        this.lblBirthdaytMessage = new JLabel();
+        this.lblRollnumbertMessage = new JLabel();
+        this.lblClassnametMessage = new JLabel();
 
         this.txtId = new JTextField();
         this.txtName = new JTextField();
@@ -73,7 +91,6 @@ public class LoginForm extends JFrame {
 //        JFormattedTextField txfBirthday;
 //        dateFormat = DateFormat.getDateInstance();
 //        this.txfBirthday = new JFormattedTextField(dateFormat);
-
         JFormattedTextField txfBirthday;
         MaskFormatter formatter1 = null;
         try {
@@ -106,6 +123,15 @@ public class LoginForm extends JFrame {
         this.lblRollnumber.setBounds(90, 245, 80, 40);
         this.lblClassname.setBounds(90, 290, 80, 40);
 
+        this.lblTotalMessage.setBounds(50, 25, 300, 40);
+        this.lblIdMessage.setBounds(360, 70, 150, 40);
+        this.lblNameMessage.setBounds(360, 115, 150, 40);
+        this.lblEmailtMessage.setBounds(360, 70, 150, 40);
+        this.lblPhonetMessage.setBounds(360, 70, 150, 40);
+        this.lblBirthdaytMessage.setBounds(360, 70, 150, 40);
+        this.lblRollnumbertMessage.setBounds(360, 70, 150, 40);
+        this.lblClassnametMessage.setBounds(360, 70, 150, 40);
+
         this.txtId.setBounds(205, 20, 300, 40);
         this.txtName.setBounds(205, 65, 300, 40);
         this.txtEmail.setBounds(205, 110, 300, 40);
@@ -130,6 +156,15 @@ public class LoginForm extends JFrame {
         this.add(this.lblRollnumber);
         this.add(this.lblClassname);
 
+        this.add(this.lblTotalMessage);
+        this.add(this.lblIdMessage);
+        this.add(this.lblNameMessage);
+        this.add(this.lblPhonetMessage);
+        this.add(this.lblBirthdaytMessage);
+        this.add(this.lblEmailtMessage);
+        this.add(this.lblRollnumbertMessage);
+        this.add(this.lblClassnametMessage);
+
         this.add(this.txtId);
         this.add(this.txtName);
         this.add(this.txtEmail);
@@ -148,9 +183,98 @@ public class LoginForm extends JFrame {
 
     class LoginHandle implements ActionListener {
 
+        Student stu = new Student();
+
+//        String id = txtId.getText();
+//        String name = txtName.getText();
+//        String email = txtEmail.getText();
+//        String phone = txfPhone.getText();
+//        String birthday = txfBirthday.getText();
+//        String rollnumber = txtRollnumber.getText();
+//        String classname = txtClassname.getText();
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(null, "Bạn có chắc chắn nhập vào thông tin : " + "\n" + txtId.getText() + "\n" + txtName.getText() + "\n" + txtEmail.getText() + "\n" + txfPhone.getText() + "\n" + txfBirthday.getText() + "\n" + txtRollnumber.getText() + "\n" + txtClassname.getText());
+            HashMap<String, String> errors = new FormHandle().validateLogin(stu);
+            if (errors.size() == 0) {
+                resetMessage();
+
+            } else {
+                showError(errors);
+            }
+
+//            JOptionPane.showMessageDialog(null, "Bạn có chắc chắn nhập vào thông tin : " + "\n" + txtId.getText() + "\n" + txtName.getText() + "\n" + txtEmail.getText() + "\n" + txfPhone.getText() + "\n" + txfBirthday.getText() + "\n" + txtRollnumber.getText() + "\n" + txtClassname.getText());
+        }
+
+    }
+
+    private void resetMessage() {
+        lblTotalMessage.setText("");
+        lblIdMessage.setText("");
+        lblNameMessage.setText("");
+        lblEmailtMessage.setText("");
+        lblPhonetMessage.setText("");
+        lblBirthdaytMessage.setText("");
+        lblRollnumbertMessage.setText("");
+        lblClassnametMessage.setText("");
+    }
+
+    private void showError(HashMap<String, String> errors) {
+        lblTotalMessage.setForeground(Color.red);
+        lblTotalMessage.setText("* Vui lòng sửa các lỗi bên dưới và submit lại form.");
+        if (errors.containsKey("txtId")) {
+            lblIdMessage.setForeground(Color.red);
+            lblIdMessage.setText(errors.get("txtId"));
+        } else {
+            lblIdMessage.setForeground(Color.green);
+            lblIdMessage.setText("Hợp lệ.");
+        }
+
+        if (errors.containsKey("txtName")) {
+            lblNameMessage.setForeground(Color.red);
+            lblNameMessage.setText(errors.get("txtName"));
+        } else {
+            lblNameMessage.setForeground(Color.green);
+            lblNameMessage.setText("Hợp lệ.");
+        }
+
+        if (errors.containsKey("txtEmail")) {
+            lblEmailtMessage.setForeground(Color.red);
+            lblEmailtMessage.setText(errors.get("txtEmail"));
+        } else {
+            lblEmailtMessage.setForeground(Color.green);
+            lblEmailtMessage.setText("Hợp lệ.");
+        }
+
+        if (errors.containsKey("txtPhone")) {
+            lblPhonetMessage.setForeground(Color.red);
+            lblPhonetMessage.setText(errors.get("txtPhone"));
+        } else {
+            lblPhonetMessage.setForeground(Color.green);
+            lblPhonetMessage.setText("Hợp lệ.");
+        }
+
+        if (errors.containsKey("txtBirthday")) {
+            lblBirthdaytMessage.setForeground(Color.red);
+            lblBirthdaytMessage.setText(errors.get("txtName"));
+        } else {
+            lblBirthdaytMessage.setForeground(Color.green);
+            lblBirthdaytMessage.setText("Hợp lệ.");
+        }
+
+        if (errors.containsKey("txtRollnumber")) {
+            lblRollnumbertMessage.setForeground(Color.red);
+            lblRollnumbertMessage.setText(errors.get("txtName"));
+        } else {
+            lblRollnumbertMessage.setForeground(Color.green);
+            lblRollnumbertMessage.setText("Hợp lệ.");
+        }
+
+        if (errors.containsKey("txtClassname")) {
+            lblClassnametMessage.setForeground(Color.red);
+            lblClassnametMessage.setText(errors.get("txtName"));
+        } else {
+            lblClassnametMessage.setForeground(Color.green);
+            lblClassnametMessage.setText("Hợp lệ.");
         }
 
     }
